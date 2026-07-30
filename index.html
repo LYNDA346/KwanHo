@@ -478,10 +478,7 @@ body {
     <p class="lock-sub" id="lockMsg">输入密码</p>
   </div>
 
-  <div class="dots-row" id="dotsRow">
-    <div class="dot"></div><div class="dot"></div><div class="dot"></div>
-    <div class="dot"></div><div class="dot"></div><div class="dot"></div>
-  </div>
+  <div class="dots-row" id="dotsRow"></div>
 
   <div class="num-pad">
     <button class="num-key" onclick="pressKey('1')">1</button>
@@ -1298,9 +1295,7 @@ function renderAll() {
 // ============================================================
 const PASSWORD_KEY = 'kwanho_lock_password';
 let storedPass = localStorage.getItem(PASSWORD_KEY);
-// 强制重置：清除旧版可能残留的异常数据
 if (storedPass) {
-  // 旧版可能存了空字符串或非数字
   if (storedPass === '' || storedPass === 'null' || storedPass === 'undefined' || !/^\d{4,6}$/.test(storedPass)) {
     localStorage.removeItem(PASSWORD_KEY);
     storedPass = null;
@@ -1312,13 +1307,23 @@ if (!storedPass) {
 }
 let lockPassword = storedPass;
 let inputBuffer = '';
-const MAX_DIGITS = 6;
+let targetDigits = lockPassword.length;
+
+(function initDots() {
+  const row = document.getElementById('dotsRow');
+  row.innerHTML = '';
+  for (let i = 0; i < targetDigits; i++) {
+    const dot = document.createElement('div');
+    dot.className = 'dot';
+    row.appendChild(dot);
+  }
+})();
 
 function pressKey(digit) {
-  if (inputBuffer.length >= MAX_DIGITS) return;
+  if (inputBuffer.length >= targetDigits) return;
   inputBuffer += digit;
   updateDots();
-  if (inputBuffer.length === MAX_DIGITS) {
+  if (inputBuffer.length === targetDigits) {
     setTimeout(() => checkPassword(), 150);
   }
 }
@@ -1396,6 +1401,7 @@ function changePassword(newPass) {
     return false;
   }
   lockPassword = newPass;
+  targetDigits = newPass.length;
   localStorage.setItem(PASSWORD_KEY, newPass);
   return true;
 }
@@ -1981,9 +1987,7 @@ function renderAll() {
 // ============================================================
 const PASSWORD_KEY = 'kwanho_lock_password';
 let storedPass = localStorage.getItem(PASSWORD_KEY);
-// 强制重置：清除旧版可能残留的异常数据
 if (storedPass) {
-  // 旧版可能存了空字符串或非数字
   if (storedPass === '' || storedPass === 'null' || storedPass === 'undefined' || !/^\d{4,6}$/.test(storedPass)) {
     localStorage.removeItem(PASSWORD_KEY);
     storedPass = null;
@@ -1995,13 +1999,23 @@ if (!storedPass) {
 }
 let lockPassword = storedPass;
 let inputBuffer = '';
-const MAX_DIGITS = 6;
+let targetDigits = lockPassword.length;
+
+(function initDots() {
+  const row = document.getElementById('dotsRow');
+  row.innerHTML = '';
+  for (let i = 0; i < targetDigits; i++) {
+    const dot = document.createElement('div');
+    dot.className = 'dot';
+    row.appendChild(dot);
+  }
+})();
 
 function pressKey(digit) {
-  if (inputBuffer.length >= MAX_DIGITS) return;
+  if (inputBuffer.length >= targetDigits) return;
   inputBuffer += digit;
   updateDots();
-  if (inputBuffer.length === MAX_DIGITS) {
+  if (inputBuffer.length === targetDigits) {
     setTimeout(() => checkPassword(), 150);
   }
 }
@@ -2079,6 +2093,7 @@ function changePassword(newPass) {
     return false;
   }
   lockPassword = newPass;
+  targetDigits = newPass.length;
   localStorage.setItem(PASSWORD_KEY, newPass);
   return true;
 }
