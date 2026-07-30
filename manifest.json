@@ -1,0 +1,13 @@
+{
+  "name": "KwanHo",
+  "short_name": "KwanHo",
+  "icons": [{
+    "src": "app-icon.jpg",
+    "sizes": "1024x1024",
+    "type": "image/jpeg"
+  }],
+  "start_url": "/KwanHo/",
+  "display": "standalone",
+  "background_color": "#08080f",
+  "theme_color": "#ff4582"
+}
